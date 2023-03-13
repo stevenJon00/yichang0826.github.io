@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>倒數計時器</h1>
+    <form id="myform">
+        <label for="targetdate">目標日期：</label>
+        <input type="date" name="targetdate" id="targetdate" required autofocus>
+        <button type="submit">提交</button>
+    </form>
+
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>目標年份</th>
+                <th>目標月份</th>
+                <th>目標日期</th>
+                <th>差距天數</th>
+                <th>差距小時</th>
+                <th>差距分鐘</th>
+                <th>差距秒數</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+<script src="script.js"></script>
+<script>
+    const form = document.getElementById("myform");
+    const tableBody = document.getElementById("myTable").getElementsByTagName("tbody")[0];
+    $('button').click(function () {
+        alert($('#targetdate').value)
+    })
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const targetDate = document.getElementById("targetdate").value;
+        if (isDateValidAndUnique(targetDate)) {
+            addRow(targetDate);
+        };
+        setInterval(updateTime, 1000);
+    });
+
+</script>
+
+
+</html>

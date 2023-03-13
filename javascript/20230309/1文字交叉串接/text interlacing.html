@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>text interlacing</title>
+</head>
+
+<body>
+	<h1>text interlacing</h1>
+	<label>Input 1: <input type="text" id="input1"></label>
+	<label>Input 2: <input type="text" id="input2"></label>
+	<button onclick="combineInputs()">Combine Inputs</button>
+	combine=<p id="output"></p>
+</body>
+<script>
+	function combineInputs() {
+		var input1 = document.getElementById("input1").value;
+		var input2 = document.getElementById("input2").value;
+		var result = ""
+		for (var i = 0; ; i++) {
+			if (input1[i] != null) {
+				result += input1[i]
+			}
+			if (input2[i] != null) {
+				result += input2[i]
+			}
+			if (input1[i] == null && input2[i] == null) {
+				break
+			}
+		}
+		document.getElementById("output").innerHTML = result;
+	}
+</script>
+
+</html>

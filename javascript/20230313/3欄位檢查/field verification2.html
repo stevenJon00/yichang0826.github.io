@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Verification</title>
+  <style>
+    form {
+      border:black double 10px;
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      text-align: left;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="tel"] {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    input[type="submit"] {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0069d9;
+    }
+
+    .helper-text {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 0.25rem;
+      text-align: left;
+      height: 1;
+      width: 100%;
+      max-width: 400px;
+      /*white-space: pre;*/
+    }
+
+    ::-webkit-input-placeholder {
+      /* Chrome/Opera/Safari */
+      color: lightgrey;
+    }
+
+    :-ms-input-placeholder {
+      /* IE 10+ */
+      color: rgb(252, 0, 0);
+    }
+  </style>
+</head>
+
+<body>
+  <form id="my-form">
+    <label for="username">
+      用戶名:
+      <input type="text" id="username" name="username" required minlength="6" maxlength="18"
+        pattern="[a-zA-Z][a-zA-Z0-9_]*" autofocus placeholder="請輸入用戶名" />
+      <span class="helper-text" id="usernamehelper">&nbsp;請輸入6-18個字母、數字或下劃線，第一個字必須是英文字母</span>
+    </label>
+
+    <label for="password">
+      密碼:
+      <input type="password" id="password" name="password" required minlength="6" maxlength="18"
+        autocomplete="current-password" placeholder="請輸入密碼" />
+      <span class="helper-text" id="passwordhelper">&nbsp;請輸入6-18個字母、數字</span>
+    </label>
+
+    <label for="email">
+      Email:
+      <input type="email" id="email" name="email" required autocomplete="email" placeholder="請輸入Email" />
+      <span class="helper-text" id="emailhelper">&nbsp;</span>
+    </label>
+    <label for="telnum">
+      手機號碼:
+      <input type="tel" id="telnum" name="telnum" required pattern="[0-9]{11}" placeholder="請輸入手機號碼" />
+      <span class="helper-text" id="telnumhelper">&nbsp;</span>
+    </label>
+    <input type="submit" value="提交" />
+  </form>
+</body>
+<script>
+  const form = document.getElementById("my-form");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault(); // 防止表單刷新頁面
+    alert("Welcome " + document.getElementById("username").value.trim())
+    form.reset();
+    document.getElementById("usernamehelper").innerHTML = `&nbsp;請輸入6-18個字母、數字或下劃線，第一個字必須是英文字母`;
+    document.getElementById("passwordhelper").innerHTML = "&nbsp;請輸入6-18個字母、數字";
+    document.getElementById("emailhelper").innerHTML = "&nbsp;";
+    document.getElementById("telnumhelper").innerHTML = "&nbsp;";
+  });
+</script>
+
+</html>

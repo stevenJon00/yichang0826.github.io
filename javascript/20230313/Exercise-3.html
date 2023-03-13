@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>表单提交验证</title>
+    <style>
+        .error {
+            color: red;
+        }
+        
+        label {
+            display: inline-block;
+            width: 70px;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body onload="loadFun()">
+    <form onsubmit="return validateForm()" action="" method="post">
+        <p style="color: blue;">检核规则：<br>1. 用户名6-18个字符，可使用数字、字母、下划线，需以字母开头<br> 2. 密码6-18个字符(字母和数字), 大小写字母和数字必须都要有</p>
+        <fieldset>
+            <legend>注册:</legend>
+            <div class="row">
+                <label>用户名：</label>
+                <input type="text" name="name">
+                <span class="error" id="nameErr"></span>
+            </div>
+            <div class="row">
+                <label>密码：</label>
+                <input type="password" name="pwd">
+                <!-- <input type="text" name="pwd"> -->
+                <span class="error" id="pwdErr"></span>
+            </div>
+            <div class="row">
+                <label>Email：</label>
+                <input type="text" name="email">
+                <span class="error" id="emailErr"></span>
+            </div>
+            <div class="row">
+                <label>手机号：</label>
+                <input type="text" name="mobile" maxlength="11">
+                <span class="error" id="mobileErr"></span>
+            </div>
+            <div class="row" style="text-align: center;">
+                <input type="submit" value="提交">
+            </div>
+        </fieldset>
+    </form>
+    <script>
+        function loadFun() {
+            var tags = document.getElementsByTagName('input');
+            for (var i = 0; i < tags.length; i++) {
+                tags[i].onchange = function() {
+                    // 清空err标签的提示信息
+                    document.getElementById(this.name + "Err").innerHTML = '';
+                }
+            }
+
+            //unitTest();
+        }
+
+        // 显示错误消息
+        function printError(elemId, hintMsg) {
+            document.getElementById(elemId).innerHTML = hintMsg;
+        }
+
+        // 验证表单数据
+        function validateForm() {
+            // 获取表单元素的值
+            let name = document.querySelector("input[name='name']").value;
+            let pwd = document.querySelector("input[name='pwd']").value;
+            let email = document.querySelector("input[name='email']").value;
+            let mobile = document.querySelector("input[name='mobile']").value;
+
+            let flag = true;
+            let errMsg = "";
+            //检核用户名
+            errMsg = validateUserName(name);
+            if (errMsg != "") {
+                printError("nameErr", errMsg);
+                flag = false;
+            }
+
+            //检核密码
+            errMsg = validatePwd(pwd);
+            if (errMsg != "") {
+                printError("pwdErr", errMsg);
+                flag = false;
+            }
+
+            //检核邮箱
+            errMsg = validateEmail(email);
+            if (errMsg != "") {
+                printError("emailErr", errMsg);
+                flag = false;
+            }
+
+            //检核手机号
+            errMsg = validateMobile(mobile);
+            if (errMsg != "") {
+                printError("mobileErr", errMsg);
+                flag = false;
+            }
+
+            return flag;
+        }
+
+        //检核用户名
+        function validateUserName(name) {
+            let errMsg = "";
+            //检核用户名
+            if (name == "") {
+                // 1. 不能为空
+                errMsg = "用户名不能为空";
+            } else if (!/[a-zA-Z]/.test(name[0])) {
+                // 2. 首字符不是字母
+                errMsg = "用户名必须是英文开头";
+            } else if (!/\w{6,18}/.test(name)) {
+                // 3、用户名必须是数字、字母、下划线组成
+                errMsg = "用户名只能为包括数字字母下划线的6-18位字符串";
+            }
+
+            return errMsg;
+        }
+
+        //检核密码
+        function validatePwd(pwd, isTest) {
+            let errMsg = "";
+            if (pwd == "") {
+                errMsg = "密码不能为空";
+            } else if ((/\d+/.test(pwd) && /[a-z]+/.test(pwd) && /[A-Z]+/.test(pwd) && /[a-zA-Z0-9]{6,18}/.test(pwd)) == false) {
+                // /\d+/.test(pwd) 检核必须包含数字
+                // /[a-z]+/.test(pwd) 检核必须包含小写字母
+                // /[A-Z]+/.test(pwd) 检核必须包含大写字母
+                //  /[a-zA-Z0-9]{6,18}/.test(pwd) 检核必须为字母数字组合的6-18位字符串
+                errMsg = "密码6-18个字符（字母和数字），大小写字母和数字必须都要有";
+            }
+
+            return errMsg;
+        }
+
+        //检核邮箱
+        function validateEmail(email, isTest) {
+            let errMsg = "";
+            let reg_email = /^[a-zA-Z0-9]+([-_.][A-Za-zd]+)*@([a-zA-Z0-9]+[-.])+[A-Za-zd]{2,5}$/; //邮箱正则
+            if (email == "") {
+                errMsg = "邮箱不能为空";
+            } else if (!reg_email.test(email)) {
+                errMsg = "邮箱格式错误";
+            }
+
+            return errMsg;
+        }
+
+        //检核手机号
+        function validateMobile(mobile, isTest) {
+            let errMsg = "";
+            let reg_tel = /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])d{8}$/; //11位手机号码正则
+            //var reg_tel = /^[09]d{8}$/; //以09开头的10位手机号码正则
+            if (mobile == "") {
+                errMsg = "手机号不能为空";
+            } else if (!reg_tel.test(mobile)) {
+                errMsg = "手机号格式错误";
+            }
+
+            return errMsg;
+        }
+
+        //单元测试
+        function unitTest() {
+            outUnitResult("用户名", "", validateUserName("")); //用户名为空
+            outUnitResult("用户名", "1abcefw", validateUserName("1abcefw")); //用户名不是以英文字母开头
+            outUnitResult("用户名", "a232", validateUserName("a232")); //用户名长度不为6-18位
+            outUnitResult("用户名", "test1234", validateUserName("test1234")); //正确用户名
+
+            outUnitResult("密码", "", validatePwd("")); //密码为空
+            outUnitResult("密码", "1abN", validatePwd("1abN")); //长度不满足
+            outUnitResult("密码", "11a", validatePwd("11a")); //不满足数字、英文大小写字母都包含
+            outUnitResult("密码", "testTEST1234", validateUserName("testTEST1234")); //正确密码
+
+            outUnitResult("Email", "", validateEmail("")); //Email为空
+            outUnitResult("Email", "1abN", validateEmail("1abN")); //邮箱格式错误
+            outUnitResult("Email", "aa@bb.com", validateEmail("aa@bb.com")); //正确邮箱
+
+            outUnitResult("手机号", "", validateMobile("")); //手机号为空
+            outUnitResult("手机号", "111", validateMobile("111")); //手机号格式错误
+            outUnitResult("手机号", "13689562358", validateMobile("13689562358")); //正确手机号
+        }
+
+        //输出单元测试结果
+        function outUnitResult(fieldName, inputContent, checkResult) {
+    			console.log(fieldName + "输入" + inputContent + "检核失败，错误讯息：" + checkResult);
+        }
+    </script>
+</body>
+
+</html>

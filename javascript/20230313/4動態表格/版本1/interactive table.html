@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<script src="interactive table.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>interactive table</title>
+</head>
+<body>
+    <var class="inputbar">
+        <label for="index">編號:</label>
+        <input type="text" id="index" placeholder="請輸入編號" style="width: 100px;" required>
+
+        <label for="name">姓名:</label>
+        <input type="text" id="name" placeholder="請輸入姓名" style="width: 100px;" required>
+
+        <label for="sex">性別:</label>
+        <select id="sex" placeholder="請選擇性別" style="width: 100px;" required>
+            <option value="" selected>請選擇性別</option>
+            <option value="male">男姓</option>
+            <option value="female">女性</option>
+        </select>
+
+        <button type="submit" onclick="submitoc()">提交</button>
+    </var>
+    <br> <!-- 換行 -->
+    <table id="table">
+        <thead>
+          <tr>
+            <th>編號</th>
+            <th>姓名</th>
+            <th>性別</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+    
+    <tbody>
+    </tbody>
+</table>
+</body>
+<script>
+    var indexExists = {};
+    var data = [
+        { index: "1", name: "John", sex: "Male" },
+        { index: "2", name: "Mary", sex: "Female" },
+        { index: "3", name: "Tom", sex: "Male" }
+    ];
+    data.forEach(function(item) {
+        addRow(item.index, item.name, item.sex);
+    });
+    function submitoc(){
+        var index = document.getElementById("index").value
+        var name = document.getElementById("name").value
+        var sex = document.getElementById("sex").value
+        if(index === "" || name === "" || sex === ""){
+            alert("輸入項不得為空")
+        }else{
+            addRow(index, name, sex)
+        }
+    }
+</script>
+
+<style>
+    #table{
+        width: 300px;
+        border: 1px solid black;
+    }
+    #table td{
+        width: 25%;
+        border: 1px solid black;
+    }
+    .delbut{
+        width: 100%;
+    }
+</style>
+</html>

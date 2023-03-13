@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="field verification.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>field verification</title>
+</head>
+
+<body>
+    <div>
+        <label for="username" class="frontlabel">用戶名:</label>
+        <input type="account" id="username" name="username">
+        <label for="username" id="usernamealert"></label>
+        <label for="username" id="usernamelabel">請輸入6-18位字元 第一個字必須是英文 只能包含英文 數字 下底線</label>
+    </div>
+    <div>
+        <label for="password" class="frontlabel">密碼:</label>
+        <input type="password" id="password" name="password">
+        <label for="password" id="passwordalert"></label>
+        <label for="password" id="passwordlabel">請輸入6-18位字元</label>
+    </div>
+    <div>
+        <label for="email" class="frontlabel">Email:</label>
+        <input type="email" id="email" name="email">
+        <label for="email" id="emailalert"></label>
+    </div>
+    <div>
+        <label for="number" class="frontlabel">手機號碼:</label>
+        <input type="text" id="number" name="number">
+        <label for="number" id="numberalert"></label>
+    </div>
+    <div style="display:flex"><button type="submit" id="submit" onclick="checkinput()">提交</button></div>
+</body>
+<style>
+    div {
+        display: block;/*站寬 留空*/
+        flex-direction: column;/*垂直排列*/
+        align-items: center;/*水平居中*/
+    }
+
+    .frontlabel {
+        display: inline-block;/*同一行*/
+        text-align: right;/*文字靠右*/
+        letter-spacing: 2px;/*字的間距*/
+        width: 100px;
+    }
+
+    input {
+        display: inline-block;
+        width: 100px;
+    }
+
+    div#submit {
+        display: grid;/*網格*/
+        place-items: center;/*放中間?*/
+    }
+</style>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh">
+<script src="interactive table3.js"></script>
+<!--script src="sorttable.js"></script-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>interactive table</title>
+    <link rel="stylesheet" href="interactive table3.css">
+</head>
+</head>
+
+<body>
+    <form id="form">
+        <div>
+            <label for="index">編號:</label>
+            <input type="number" id="index" placeholder="請輸入編號" required pattern="[0-9]*" min="1" />
+        </div>
+        <div>
+            <label for="name">姓名:</label>
+            <input type="text" id="name" placeholder="請輸入姓名" required />
+        </div>
+        <div>
+            <label for="sex">性別:</label>
+            <select id="sex" required>
+                <option value="" selected disabled>請選擇性別</option>
+                <option value="male">男姓</option>
+                <option value="female">女性</option>
+            </select>
+        </div>
+        <input type="submit" value="提交" style="width: 1;" />
+    </form>
+
+    <table id="table" class="sorttable">
+        <thead>
+            <tr>
+                <th>編號</th>
+                <th>姓名</th>
+                <th>性別</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+    
+    <tbody>
+    </tbody>
+</table>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+// 当页面加载时恢复表格数据
+    var indexExists = []
+    /*window.onload = function() {
+        // 初始化 sorttable
+        sorttable.makeSortable(document.querySelector('.sorttable'));
+    }*/
+
+    window.addEventListener("load", function () {
+       restoreTableData();
+    });
+
+    const form = document.getElementById("form");
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var index = document.getElementById("index").value;
+        var name = document.getElementById("name").value;
+        var sex = document.getElementById("sex").value;
+        var jsdata = {"index":index, "name":name, "sex":sex}
+        addRow(jsdata);
+	    form.reset();
+    });
+</script>
+
+</html>
+
+<!--數字過長會跑掉
+恢復數據失敗
+儲存不確定-->

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>动态Table</title>
+    <style>
+        #tableStudent {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        #tableStudent td,
+        #tableStudent th {
+            font-size: 1em;
+            border: 1px solid #A7C942;
+            padding: 3px 7px 2px 7px;
+            color: #000000;
+        }
+        
+        #tableStudent th {
+            font-size: 1.1em;
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #A7C942;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body onload="initTableData()">
+    <div>
+        <label>编号：</label><input type="text" id="id" placeholder="请输入编号" />
+        <label>姓名：</label><input type="text" id="name" placeholder="请输入姓名" />
+        <label>性别：</label><select id="gender" style="width: 150px;">
+          <option value="">-请选择-</option>
+          <option value="男">男</option>
+          <option value="女">女</option>
+      </select>
+        <input type="button" id="btn_add" value="添加" onclick="addStudent()" />
+    </div>
+
+    <br>
+    <table id="tableStudent">
+        <caption>
+            学生信息表
+        </caption>
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        //存放数据资料的数组
+        var dataArray = [];
+
+        //初始Table数据内容
+        function initTableData() {
+            //var text = "[{\"id\": \"1\", \"name\": \"张三\", \"gender\": \"男\"}, " +
+            //    " {\"id\": \"2\", \"name\": \"李四\", \"gender\": \"男\"}, " +
+            //    " {\"id\": \"3\", \"name\": \"王五\", \"gender\": \"女\"}]";
+            var text = '[{"id": "1", "name": "张三", "gender": "男"}, ' +
+                ' {"id": "2", "name": "李四", "gender": "男"}, ' +
+                ' {"id": "3", "name": "王五", "gender": "女"}]';
+            var tmpDataArray = JSON.parse(text);
+            for (var i = 0; i < tmpDataArray.length; i++) {
+                addRow(tmpDataArray[i].id, tmpDataArray[i].name, tmpDataArray[i].gender);
+            }
+        }
+
+        //新增按钮事件
+        function addStudent() {
+            //1.获取文本框的内容
+            var id = document.getElementById("id").value;
+            var name = document.getElementById("name").value;
+            var gender = document.getElementById("gender").value;
+
+            //2.检核栏位必填
+            if (id === "") {
+                alert("请输入编号");
+                return;
+            } else if (isNaN(id)) {
+                alert("编号必须为数字");
+                return;
+            } else {
+                //判断编号是否重复
+                var obj = document.getElementById("tableStudent");
+                var rows = obj.rows;
+                var isRepeat = false; //是否重复，预设为false
+                for (var i = 1; i < rows.length; i++) {
+                    //由于第一行是标题，所以从第二行开始获取值）
+                    if (rows[i].cells[0].innerText == id) {
+                        isRepeat = true;
+                    }
+                }
+                if (isRepeat) {
+                    alert("编号已存在，请确认！");
+                    return;
+                }
+            }
+
+            if (name === "") {
+                alert("请输入姓名");
+                return;
+            }
+            if (gender === "") {
+                alert("请选择性别");
+                return;
+            }
+
+            //执行新增资料到画面Table
+            addRow(id, name, gender);
+
+            //清空输入内容
+            document.getElementById("id").value = "";
+            document.getElementById("name").value = "";
+            document.getElementById("gender").value = "";
+        }
+
+        //执行新增一笔资料
+        function addRow(strId, strName, strGender) {
+            //创建td,赋值td的标签体
+            //编号id的td
+            var td_id = document.createElement("td");
+            var text_id = document.createTextNode(strId);
+            td_id.appendChild(text_id);
+
+            //姓名name的td
+            var td_name = document.createElement("td");
+            var text_name = document.createTextNode(strName);
+            td_name.appendChild(text_name);
+
+            //性别gender的td
+            var td_gender = document.createElement("td");
+            var text_gender = document.createTextNode(strGender);
+            td_gender.appendChild(text_gender);
+
+            //操作的td
+            var td_a = document.createElement("td");
+            var ele_a = document.createElement("a");
+            ele_a.setAttribute("href", "javascript:void(0)");
+            ele_a.setAttribute("onclick", "delRow(this)");
+            var text_a = document.createTextNode("删除");
+            ele_a.appendChild(text_a);
+            td_a.appendChild(ele_a);
+
+            //4.创建tr
+            var tr = document.createElement("tr");
+            //5.添加td到tr中
+            tr.appendChild(td_id);
+            tr.appendChild(td_name);
+            tr.appendChild(td_gender);
+            tr.appendChild(td_a);
+
+            //6.获取table
+            var table = document.getElementsByTagName("table")[0];
+            table.appendChild(tr);
+
+            //将资料写入数组中
+            dataArray.push({
+                id: strId,
+                name: strName,
+                gender: strGender
+            });
+        }
+
+        //删除方法
+        function delRow(obj) {
+            var table = obj.parentNode.parentNode.parentNode;
+            var tr = obj.parentNode.parentNode;
+            table.removeChild(tr);
+
+            //将资料从数组中删除
+            for (var i = 0; i < dataArray.length; i++) {
+                if (dataArray[i].id == tr.cells[0].innerText) {
+                    dataArray.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

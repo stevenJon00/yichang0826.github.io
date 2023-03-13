@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>字符串交叉合并</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>字符串1：</td>
+            <td><input type="text" id="txtMerge1" value="asdfghjkl"></td>
+        </tr>
+        <tr>
+            <td>字符串2：</td>
+            <td><input type="text" id="txtMerge2" value="1472583"></td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <input type="button" value="合并" onclick="Merge()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center;">
+                <p id="demo1" style="color: red;"></p>
+            </td>
+        </tr>
+    </table>
+</body>
+<script>
+    //执行交叉合并
+    function Merge() {
+        //获取字符串1内容
+        const mergeArray1 = document.getElementById("txtMerge1").value.split("");
+        //获取字符串2内容
+        const mergeArray2 = document.getElementById("txtMerge2").value.split("");
+        //合并后内容
+        let mergedString = "";
+        for (var i = 0; i < mergeArray1.length || i < mergeArray2.length; i++) {
+            if (i < mergeArray1.length) {
+                mergedString += mergeArray1[i];
+            }
+            if (i < mergeArray2.length) {
+                mergedString += mergeArray2[i];
+            }
+        }
+
+        //将交叉合并后的内容显示到画面中
+        document.getElementById("demo1").innerText = "合并结果：" + mergedString;
+    }
+</script>
+
+</html>

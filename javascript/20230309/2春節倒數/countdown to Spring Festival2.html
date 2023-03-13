@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head onload="onpageload()">
+	<title>countdown to Spring Festival</title>
+	<style>
+		table {
+			border-collapse: separate;
+			margin: auto;
+			margin-top: 100px;
+			text-align: center;
+		}
+
+		td {
+			border: 2px solid white;
+			background-color: red;
+			color: white;
+			text-align: center;
+			max-width: 100px;
+			max-height: 100px;
+			min-width: 50px;
+			line-height: 3;
+			border-radius: 10px;
+		}
+
+		.countdown-container {
+			display: flex;
+			justify-content: center;
+			margin-top: 50px;
+			font-size: 50px;
+			color: red;
+			font-weight: bold;
+		}
+
+		.countdown-item {
+			margin: 0px 30px;
+		}
+
+		.blink {
+			animation: blinker 1s linear infinite;
+		}
+
+		@keyframes blinker {
+			50% {
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td>距</td>
+			<td>離</td>
+			<td>2024</td>
+			<td>春</td>
+			<td>節</td>
+			<td>還</td>
+			<td>剩</td>
+			<td>下</td>
+		</tr>
+	</table>
+	<div class="countdown-container">
+		<div class="countdown-item" id="daysCell">0 天</div>
+		<div class="countdown-item">:</div>
+		<div class="countdown-item" id="hoursCell">0 时</div>
+		<div class="countdown-item">:</div>
+		<div class="countdown-item" id="minutesCell">0 分</div>
+		<div class="countdown-item">:</div>
+		<div class="countdown-item" id="secondsCell">0 秒</div>
+	</div>
+	<script>
+		const targetDate = new Date('February 10, 2024 23:59:59').getTime();//1970到明年春節的毫秒
+		let now, diff, days, hours, minutes, seconds; //避免變數重新賦值
+
+		function updateClock() {
+			now = new Date().getTime();//1970跟現在的毫秒
+			diff = targetDate - now;//兩個相減等於差距的毫秒
+
+			diff /= 1000;//先除以1000 等於秒
+			//math.floor 無條件捨去
+			days = Math.floor(diff / (24 * 60 * 60));//.floor(diff / (24*60*60))等於差距的天 餘數等於扣掉之後的剩餘秒數
+			hours = Math.floor((diff % (24 * 60 * 60)) / (60 * 60));//剩餘秒數再除以(60*60)=差距的小時
+			minutes = Math.floor((diff % (60 * 60)) / (60));
+			seconds = Math.floor((diff % (60)));
+
+			document.getElementById("daysCell").textContent = `${days} 天`;
+			document.getElementById("hoursCell").textContent = `${hours}小時`;
+			document.getElementById("minutesCell").textContent = `${minutes}分鐘`;
+			document.getElementById("secondsCell").textContent = `${seconds}秒鐘`;
+		}
+		setInterval(updateClock, 1000);//setinterval是使網頁更新(func, delay毫秒) (func不要加())
+	</script>
+</body>
+
+</html>

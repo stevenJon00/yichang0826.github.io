@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>jQuery Selectors</title>
+    <script src="../js/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" href="../css/main.css" />
+
+    <style>
+        #box-results>div {
+            margin-bottom: 1em;
+        }
+        
+        #jquery-statement,
+        #resulting-elements-count {
+            color: blue;
+        }
+        
+        #resulting-elements {
+            color: red;
+        }
+        
+        .found-element {
+            border: 2px solid #000000;
+            background-color: #DDDDDD;
+        }
+        
+        #sample-dom-source {
+            max-height: 77em;
+        }
+        
+        table {
+            display: table;
+            border-collapse: separate;
+            box-sizing: border-box;
+            text-indent: initial;
+            border-spacing: 1px;
+            border-color: grey;
+            font-size: 12px;
+        }
+        
+        table.reference td {
+            line-height: 15px;
+            min-width: 24px;
+            border: 1px solid #d4d4d4;
+            padding: 5px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        <form id="box-selector">
+            <label for="selector">选择器：</label>
+            <input type="text" id="selector" />
+            <input type="button" id="button-apply" value="确定" />
+        </form>
+
+        <div id="box-results">
+            <div>
+                <span id="jquery-statement"></span>
+            </div>
+            <div>
+                <span id="resulting-elements-count"></span>
+                <div id="resulting-elements"></div>
+            </div>
+        </div>
+    </p>
+    <div class="box-small">
+        <div id="sample-dom">
+        </div>
+    </div>
+
+    <div class="box-small">
+        <p>程式代码</p>
+        <pre id="sample-dom-source">
+         </pre>
+    </div>
+
+    <script>
+        $(function() {
+            $.get('Exercise-1-read.txt', function(data) {
+                $('#sample-dom')[0].innerHTML = data;
+                $('#sample-dom-source').text(data);
+            });
+
+            //执行
+            $('#button-apply').click(function(event) {
+                //event.preventDefault();
+                // 设定selector内容
+                var selector = $.trim($('#selector').val());
+
+                if (selector == '') {
+                    alert('请输入选择器内容！');
+                    return;
+                }
+
+                // 清除旧数据
+                $('.found-element', '#sample-dom').removeClass('found-element');
+                $('#resulting-elements').html('');
+
+                // 获取匹配的的画面元素
+                var $set = $(selector, '#sample-dom');
+                $set.addClass('found-element');
+
+                // 输出匹配结果
+                $('#jquery-statement').html('JQuery语句：$("' + selector + '").addClass("found-element");');
+                $('#resulting-elements-count').text("匹配结果：" + $set.length);
+                $set.each(function() {
+                    $('#resulting-elements').append(
+                        '<div>' + this.tagName + (this.id ? '#' + this.id : '') + '</div>'
+                    );
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
