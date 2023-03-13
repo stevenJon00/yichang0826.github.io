@@ -55,6 +55,8 @@
         var sex = document.getElementById("sex").value
         if(index === "" || name === "" || sex === ""){
             alert("輸入項不得為空")
+        }else if(index <= 0){
+            alert("編號不得小於0")
         }else{
             addRow(index, name, sex)
         }
